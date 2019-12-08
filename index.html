@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
     <link rel="stylesheet" href="./spacing.css">
+    <style>
+    *{
+        font-family: 'Ubuntu', sans-serif;
+        letter-spacing: 0.5px;
+    }
+    </style>
 </head>
 
 <body>
-    <div class="container grid-lg mt-5">
+    <div class="mt-5 mx-5">
         <h3><strong>Video Info</strong></h3>
-        <p class="mb-2">This is a simple electron application which calculate length of a specific video from your filesystem.</p>
+        <p class="mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, et magni velit doloribus vel officia rerum minus architecto deserunt blanditiis nam, facilis commodi, consectetur quo. Atque quo tempora veritatis minus.</p>
         <form class="main-form" action="">
             <div class="form-group">
                 <label class="form-label" for="input-example-1">Select a video</label>
@@ -26,9 +32,17 @@
     const main_form = document.querySelector(".main-form");
     const main_video = document.querySelector(".main-video");
 
+    const electron = require('electron');    
+    const ipc = electron.ipcRenderer;
+
     main_form.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log(main_video.files[0])
+        const { path } = main_video.files[0];
+        ipc.send('video:submit', path);
+    })
+
+    ipc.on('video:information', function (event, info) {
+        console.log(info)
     })
     </script>
 </body>

@@ -1,4 +1,7 @@
 const { app, BrowserWindow } = require('electron')
+const ipc = require('electron').ipcMain
+var ffprobe = require('ffprobe'),
+    ffprobeStatic = require('ffprobe-static');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -7,8 +10,8 @@ let win
 function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({
-        width: 1700,
-        height: 830,
+        width: 800,
+        height: 500,
         webPreferences: {
             nodeIntegration: true
         }
@@ -18,7 +21,7 @@ function createWindow() {
     win.loadFile('index.html')
 
     // Open the DevTools.
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -53,3 +56,12 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+ipc.on('video:submit', (event, path) => {
+    // win.webContents.send('targetPriceVal', arg)
+
+    ffprobe(path, { path: ffprobeStatic.path }, function (err, info) {
+        if (err) return done(err);
+        win.webContents.send('video:information', info)
+    });
+})

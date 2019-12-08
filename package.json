@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^6.0.12"
+    "electron": "^6.0.12",
+    "ffprobe": "^1.1.0",
+    "ffprobe-static": "^3.0.0"
   }
 }
